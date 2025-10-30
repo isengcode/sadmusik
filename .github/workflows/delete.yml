@@ -1,4 +1,4 @@
-name: CI
+name: Delete File
 
 on:
   workflow_dispatch:
