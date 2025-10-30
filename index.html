@@ -152,7 +152,7 @@ seekto, seeking=false,
 curtimetext, durtimetext,
 play_status, playlist,
 ext, playlist_index, agent,isMobile, 
-modeSwitch, playModeValue, musicBank;
+modeSwitch, playModeValue, baseUrl;
 
 function initAudioPlayer() {
     // Set Object references
@@ -200,8 +200,8 @@ function initAudioPlayer() {
     }
 
     function getDataMusic(){
-        musicBank = getCurrentURL();
-        fetch(musicBank + '/musiclist.json', {
+        baseUrl = getCurrentURL();
+        fetch(baseUrl + '/musiclist.json', {
             method: 'GET'
         })
         .then((response) => response.json())
@@ -237,7 +237,7 @@ function initAudioPlayer() {
         playModeValue = "0";
         playlist_index = 0;
         agent = navigator.userAgent.toLowerCase();
-        audio.src = musicBank+ '/' +playlist[0].source;
+        audio.src = playlist[0].source;
         audio.loop = false;
         // audio.play();
         play_status.innerHTML = "Track "+(playlist_index+1)+" - "+ playlist[playlist_index].name;
@@ -284,7 +284,7 @@ function initAudioPlayer() {
         audio.currentTime = 0;
         let checkedMusic = chooseMusic.options[chooseMusic.selectedIndex].value
         console.log(checkedMusic);
-        audio.src = musicBank+ '/' +checkedMusic;
+        audio.src = checkedMusic;
         playlist_index = chooseMusic.selectedIndex
         play_status.innerHTML = "Track "+(playlist_index+1)+" - "+ playlist[playlist_index].name;
         document.title = play_status.innerText;
@@ -302,7 +302,7 @@ function initAudioPlayer() {
         }
         play_status.innerHTML = "Track "+(playlist_index+1)+" - "+ playlist[playlist_index].name;
         document.title = play_status.innerText;
-        audio.src = musicBank+ '/' +playlist[playlist_index].source;
+        audio.src = playlist[playlist_index].source;
         audio.play();
     }
     
@@ -380,7 +380,7 @@ function initAudioPlayer() {
         playlist_index++;
         play_status.innerHTML = "Track "+(playlist_index+1)+" - "+ playlist[playlist_index].name;
         document.title = play_status.innerText;
-        audio.src = musicBank + '/' + playlist[playlist_index].source;
+        audio.src = playlist[playlist_index].source;
         playPause(true);
     }
     function prevPlay() {
@@ -390,7 +390,7 @@ function initAudioPlayer() {
         playlist_index--;
         play_status.innerHTML = "Track "+(playlist_index+1)+" - "+ playlist[playlist_index].name;
         document.title = play_status.innerText;
-        audio.src = musicBank+ '/' +playlist[playlist_index].source;
+        audio.src = playlist[playlist_index].source;
         playPause(true);
         }
     }
