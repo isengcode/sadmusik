@@ -37,5 +37,5 @@ jobs:
         with:
           force: true
           directory: "."
-          github_token: ${{ secrets.TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ steps.extract_branch.outputs.branch }}
