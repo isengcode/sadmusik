@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      oldSong:
+        description: 'Input url file mp3'
+        required: true
+      newSong:
+        description: 'Input new url file mp3'
+        required: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract Branch
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+      - uses: actions/checkout@v3
+      - name: Install Depedenciest npm
+        run: |
+          npm install
+      - name: Running app
+        run: |
+          node update.js ${{ github.event.inputs.oldSong }} ${{ github.event.inputs.newSong }}
+      - name: Commit
+        run: |
+          git config --local user.name "mrtampan"
+          git config --local user.email "mrtampan@github.io"
+          git add -A
+          git commit -m "[AUTO:BUILD] build from musiclist.json"
+      - name: Push
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          force: true
+          directory: "."
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.extract_branch.outputs.branch }}
