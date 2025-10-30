@@ -24,7 +24,7 @@ jobs:
           npm install
       - name: Running app
         run: |
-          node create.js ${{ github.event.inputs.song }}
+          node create.js ${{ github.event.inputs.song }} "${{ github.event.inputs.songName }}"
       - name: Commit
         run: |
           git config --local user.name "mrtampan"
@@ -36,5 +36,5 @@ jobs:
         with:
           force: true
           directory: "."
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.TOKEN }}
           branch: ${{ steps.extract_branch.outputs.branch }}
